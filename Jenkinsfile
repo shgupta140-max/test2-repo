@@ -53,6 +53,12 @@ pipeline {
             }
         }
 
+        stage("Check AWS CLI Version") {
+            steps {
+                sh 'aws --version'
+            }
+        }
+        
         stage("Deploy Artifacts to Code Artifact") {
             steps {
                 // Use Jenkins Credentials Plugin to inject AWS keys securely
