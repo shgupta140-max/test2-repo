@@ -53,19 +53,6 @@ pipeline {
             }
         }
 
-
-        stage('Check AWS CLI Version') {
-            steps {
-                sh """
-                echo "--- PATH DEBUG START ---"
-                echo "Current PATH: \$PATH"
-                echo "Which AWS: \$(which aws)"
-                aws --version
-                echo "--- PATH DEBUG END ---"
-                """
-            }
-        }
-
         stage('Debug AWS CLI Version') {
             steps {
                 sh """
@@ -84,6 +71,26 @@ pipeline {
                 echo "==== codeartifact login help ===="
                 /usr/local/bin/aws codeartifact login help || echo "help failed"
                 """
+            }
+         }
+
+
+        stage('Deploy Artifacts to Code Artifact') {
+            steps {
+                withCredentials([aws(credentialsId: env.AWS_CREDS_ID)]) {
+                    sh """
+                    # 1. Explicitly execute the V2 binary found at /usr/local/bin/aws
+                    /usr/local/bin/aws codeartifact login \
+                        --tool maven \
+                        --domain devops-sg \
+                        --repository Java-Demo-Repo \
+                        --region ap-south-1 \
+                        --server-id codeartifact-repo-id
+                    
+                    # 2. Deploy the artifact using the standard Maven command
+                    mvn deploy -DskipTests
+                    """
+                }
             }
         }
     }
