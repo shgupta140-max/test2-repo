@@ -60,14 +60,7 @@ pipeline {
                     // 1. Log in to CodeArtifact: 
                     // This generates a temporary auth token and updates the Maven settings file.
                     // IMPORTANT: The server ID here must match the <id> in pom.xml (e.g., codeartifact-repo-id)
-                    sh """
-                    aws codeartifact login \
-                        --tool maven \
-                        --domain ${env.AWS_CA_DOMAIN} \
-                        --repository ${env.AWS_CA_REPO} \
-                        --region ${env.AWS_REGION} \
-                        --server-id codeartifact-repo-id
-                    """
+                    sh 'aws codeartifact login --tool maven --domain ${env.AWS_CA_DOMAIN} --repository ${env.AWS_CA_REPO} --region ${env.AWS_REGION} --server-id codeartifact-repo-id'                    
                     
                     // 2. Deploy the artifact using the configured settings
                     sh 'mvn deploy -DskipTests'
