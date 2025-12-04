@@ -71,6 +71,7 @@ pipeline {
                     
                     // 2. Deploy the artifact using the configured settings
                     sh 'mvn deploy -DskipTests'
+                }
             }
         }
     }
