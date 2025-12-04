@@ -6,7 +6,7 @@ pipeline {
         AWS_CA_REPO = 'Java-Demo-Repo'
         AWS_REGION = 'ap-south-1'
         // This is the ID of your AWS Credentials saved in Jenkins
-        AWS_CREDS_ID = 'jenkins-uploader' 
+        AWS_CREDS_ID = 'Jenkins-uploader' 
     }
 
     tools {
