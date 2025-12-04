@@ -16,7 +16,7 @@ pipeline {
 
     stages {
 
-        stage("Initial Parallel Tasks") {
+        stage("Initial Parallels Tasks") {
             parallel {
 
                 stage("Run Host Commands") {
