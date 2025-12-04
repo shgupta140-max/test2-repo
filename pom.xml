@@ -12,6 +12,19 @@
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
+  <distributionManagement>
+    <repository>
+      <id>codeartifact-repo-id</id>
+      <name>AWS CodeArtifact Releases</name>
+      <url>https://devops-sg-706929238292.d.codeartifact.ap-south-1.amazonaws.com/maven/Java-Demo-Repo/</url>
+    </repository>
+    <snapshotRepository>
+      <id>codeartifact-repo-id</id>
+      <name>AWS CodeArtifact Snapshots</name>
+      <url>https://devops-sg-706929238292.d.codeartifact.ap-south-1.amazonaws.com/maven/Java-Demo-Repo/</url>
+    </snapshotRepository>
+</distributionManagement>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
