@@ -53,12 +53,19 @@ pipeline {
             }
         }
 
-        stage("Check AWS CLI Version") {
+
+        stage('Check AWS CLI Version') {
             steps {
-                sh 'aws --version'
+                sh """
+                echo "--- PATH DEBUG START ---"
+                echo "Current PATH: \$PATH"
+                echo "Which AWS: \$(which aws)"
+                aws --version
+                echo "--- PATH DEBUG END ---"
+                """
             }
         }
-        
+
         stage("Deploy Artifacts to Code Artifact") {
             steps {
                 // Use Jenkins Credentials Plugin to inject AWS keys securely
