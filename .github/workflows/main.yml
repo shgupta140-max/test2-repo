@@ -1,0 +1,14 @@
+name: CI
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  buildss:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a one-liner script
+        run: echo, Testing first step!
