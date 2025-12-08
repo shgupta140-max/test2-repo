@@ -11,7 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run a one-liner script
-        run: echo "Testing, its the first step!"
+        run: echo, Testing first step!
 
       - name: Print hostname
         run: hostname
+      
+      - name: Print current directory
+        run: pwd
+      
+      - name: List files in current directory
+        run: ls -la
+      
+      - name: Check OS version
+        run: lsb_release -a || cat /etc/os-release
+      
+      - name: Check disk space
+        run: df -h
+      
+      - name: Check memory usage
+        run: free -h
+      
+      - name: Print environment variables
+        run: printenv
+      
+      - name: Print IP address
+        run: hostname -I || ip addr show
