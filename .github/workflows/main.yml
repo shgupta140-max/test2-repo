@@ -12,3 +12,6 @@ jobs:
     steps:
       - name: Run a one-liner script
         run: echo "Testing, its the first step!"
+
+      - name: Print hostname
+        run: hostname
