@@ -35,7 +35,4 @@ jobs:
         run: printenv
       
       - name: Print IP address
-        run: hostname -I || ip addr show
-      
-      - name: Check network connectivity
-        run: ping -c 4 google.com
+        run: hostname -a
