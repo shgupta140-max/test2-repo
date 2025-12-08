@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run a one-liner script
-        run: echo, Testing first step!
+        run: echo "Testing, its the first step!"
