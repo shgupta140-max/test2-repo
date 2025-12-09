@@ -33,5 +33,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: snapshot.jar
+          name: java-assignment1-artifact
           path: ./target/*SNAPSHOT*.jar
