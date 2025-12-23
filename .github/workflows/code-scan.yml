@@ -1,0 +1,83 @@
+name: Code Scanning Workflow
+
+on:
+  push:
+    branches: [main]
+  
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  analyse:
+    name: Analyze(${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix: 
+        language: ['java']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif-file: codeql-results.sarif
+  
+  security-scanning:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Run Trivy Security Scan
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          format: 'table'
+          scan-type: 'fs'
+          exit-code: '0'
+          scan-ref: '.'
+          vuln-type: 'os,library'
+          output: 'security-report.txt'
+        
+      - name: Upload Security Scan report
+        uses: actions/upload-artifact@v6
+        with:
+          name: security-report.txt
+          path: './security-report.txt'
+  
+  build-test:
+    name: Build and Test
+    needs: [analyse, security-scanning]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Run Tests
+        run: mvn clean test
