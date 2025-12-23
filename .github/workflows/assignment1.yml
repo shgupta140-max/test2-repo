@@ -1,0 +1,37 @@
+name: assignment1
+
+on:
+  push:
+    branches: ["main"]
+    
+  pull_request:
+    branches: ["main"]
+    
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      
+      - name: Setting up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Executing Maven Clean Install
+        run: mvn clean install
+        
+      - name: Running Maven test
+        run: mvn test
+
+      - name: Build Application
+        run: mvn clean package
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: java-assignment1-artifact
+          path: ./target/*SNAPSHOT*.jar
